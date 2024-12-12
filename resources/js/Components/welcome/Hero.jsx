@@ -1,3 +1,5 @@
+import { Link } from '@inertiajs/react';
+
 export default function Hero() {
     return (
         <div className="hero min-h-screen">
@@ -19,7 +21,12 @@ export default function Hero() {
                         sit amet consectetur adipisicing elit. Mollitia,
                         doloremque.
                     </p>
-                    <button className="btn btn-primary">Mulai Diagnosa</button>
+                    <Link
+                        href={route('diagnosas.create')}
+                        className="btn btn-primary"
+                    >
+                        Mulai Diagnosa
+                    </Link>
                 </div>
             </div>
         </div>

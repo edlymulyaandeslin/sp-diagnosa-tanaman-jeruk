@@ -29,6 +29,7 @@ export default function SearchInput({ routeName }) {
                         onChange={(e) => setKeyword(e.target.value)}
                         className="grow border-none focus:ring-0"
                         placeholder="Search"
+                        autoFocus
                     />
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

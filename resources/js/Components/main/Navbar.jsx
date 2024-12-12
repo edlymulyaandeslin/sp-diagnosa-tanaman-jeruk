@@ -11,10 +11,13 @@ export default function Navbar() {
                 {auth.user && (
                     <div className="ml-4 flex gap-2 border-l border-gray-400">
                         <div className="relative">
-                            <Link className="btn btn-ghost" href={'/dashboard'}>
+                            <Link
+                                className="btn btn-ghost"
+                                href={route('diagnosas.index')}
+                            >
                                 Diagnosa
                             </Link>
-                            {route().current('dashboard') && (
+                            {route().current('diagnosas.*') && (
                                 <span className="absolute -bottom-2 left-0 ml-5 h-0.5 w-1/2 rounded-xl bg-primary"></span>
                             )}
                         </div>

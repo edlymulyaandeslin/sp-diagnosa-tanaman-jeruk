@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\GejalaController;
 use App\Http\Controllers\PenyakitController;
 use Inertia\Inertia;
@@ -16,12 +17,6 @@ Route::get('/', function () {
         "penyakits" => $penyakits
     ]);
 })->name('home');
-
-
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -51,7 +46,18 @@ Route::middleware('auth')->group(function () {
     Route::get("rules/{rule:id}/edit", [RuleController::class, 'edit'])->name('rules.edit');
     Route::put("rules/{rule:id}", [RuleController::class, 'update'])->name('rules.update');
     Route::delete("rules/{rule:id}", [RuleController::class, 'destroy'])->name('rules.destroy');
+
+    // Route diagnosas
+    Route::get("diagnosas", [DiagnosaController::class, 'index'])->name('diagnosas.index');
+    Route::delete("diagnosas/{diagnosa:id}", [DiagnosaController::class, 'destroy'])->name('diagnosas.destroy');
 });
 
+// route +diagnosa
+Route::get("diagnosas/create", [DiagnosaController::class, 'create'])->name('diagnosas.create');
+Route::post("diagnosas", [DiagnosaController::class, 'store'])->name('diagnosas.store');
+Route::get("diagnosas/noresult/{kode_diagnosa}", [DiagnosaController::class, 'noresult'])->name('diagnosas.noresult');
+Route::get("diagnosas/{diagnosa:id}", [DiagnosaController::class, 'show'])->name('diagnosas.show');
+
+// route detail penyakit
 Route::get("penyakits/{penyakit:kode_penyakit}", [PenyakitController::class, 'show'])->name('penyakits.show');
 require __DIR__ . '/auth.php';
