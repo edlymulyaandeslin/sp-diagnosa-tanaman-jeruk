@@ -2,47 +2,46 @@ import { Link, router } from '@inertiajs/react';
 import { FaPenToSquare, FaTrash } from 'react-icons/fa6';
 import Pagination from '../main/Pagination';
 
-export default function TableListGejala({ data }) {
-    const handleDelete = (kode_gejala) => {
+export default function TableListUsers({ data }) {
+    const handleDelete = (userId) => {
         const confirm = window.confirm(
             'Apakah anda yakin ingin menghapus data ini?',
         );
         if (!confirm) return;
 
-        router.delete(route('gejalas.destroy', kode_gejala));
+        router.delete(route('users.destroy', userId));
     };
 
     return (
         <div className="m-4 rounded border border-gray-500 p-8">
             <div className="overflow-x-auto">
-                <table className="table">
+                <table className="table text-center">
                     {/* head */}
                     <thead>
                         <tr>
-                            <th>Kode Gejala</th>
                             <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.data.map((gejala, index) => (
+                        {data.data.map((user, index) => (
                             <tr key={index}>
-                                <th>{gejala.kode_gejala}</th>
-                                <td>{gejala.name}</td>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.roles?.map((role) => role.name)}</td>
                                 <td>
-                                    <div className="flex gap-4">
+                                    <div className="flex justify-center gap-4">
                                         <Link
-                                            href={route(
-                                                'gejalas.edit',
-                                                gejala.kode_gejala,
-                                            )}
+                                            href={route('users.edit', user.id)}
                                             className="btn"
                                         >
                                             <FaPenToSquare className="text-yellow-500" />
                                         </Link>
                                         <button
                                             onClick={() =>
-                                                handleDelete(gejala.kode_gejala)
+                                                handleDelete(user.id)
                                             }
                                             className="btn"
                                         >
@@ -55,7 +54,7 @@ export default function TableListGejala({ data }) {
                         {data.data.length === 0 && (
                             <tr>
                                 <td
-                                    colSpan={5}
+                                    colSpan={2}
                                     className="text-center text-xl font-bold"
                                 >
                                     No Data

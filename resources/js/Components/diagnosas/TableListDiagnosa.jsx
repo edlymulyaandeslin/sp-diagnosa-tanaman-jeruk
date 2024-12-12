@@ -34,7 +34,9 @@ export default function TableListDiagnosa({ data }) {
                                 <td>{diagnosa.name_user}</td>
                                 <td>{diagnosa.penyakit.name}</td>
                                 <td>
-                                    {JSON.stringify(diagnosa.pilihan_gejala)}
+                                    {diagnosa.pilihan_gejala.map(
+                                        (pilihan) => pilihan.kode_gejala + ', ',
+                                    )}
                                 </td>
                                 <td>{diagnosa.hasil}%</td>
                                 <td>

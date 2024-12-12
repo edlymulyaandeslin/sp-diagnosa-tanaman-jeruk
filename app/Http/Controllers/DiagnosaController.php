@@ -17,7 +17,13 @@ class DiagnosaController extends Controller
      */
     public function index()
     {
-        $diagnosas = Diagnosa::search(request('search'))->with('penyakit')->latest()->paginate(10)->withQueryString();
+        $diagnosas = Diagnosa::query();
+
+        if (!Auth::user()->hasRole("admin")) {
+            $diagnosas = $diagnosas->where('user_id', Auth::user()->id);
+        }
+
+        $diagnosas = $diagnosas->search(request('search'))->with('penyakit')->latest()->paginate(10)->withQueryString();
 
         return Inertia::render("Diagnosas/Index", [
             'diagnosas' => $diagnosas
@@ -89,7 +95,7 @@ class DiagnosaController extends Controller
             return redirect()->route('diagnosas.noresult', $kodeDiagnosa);
         }
 
-        if (auth()) {
+        if (Auth::user()) {
             $validateData['user_id'] = Auth::user()->id;
         }
 

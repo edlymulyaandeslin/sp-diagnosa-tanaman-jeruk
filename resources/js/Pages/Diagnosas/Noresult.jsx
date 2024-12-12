@@ -12,11 +12,14 @@ export default function Show({ kode_diagnosa }) {
                     <h1 className="text-center text-4xl font-bold">
                         {kode_diagnosa}
                     </h1>
-                    <h1 className="text-center text-4xl font-bold">
+                    <h2 className="text-center text-3xl font-bold">
                         Penyakit Tidak Teridentifikasi
-                    </h1>
+                    </h2>
                 </div>
                 <div className="mx-8 min-h-20 space-y-8 rounded bg-base-200 p-8 shadow-xl">
+                    <h2 className="text-center text-xl font-bold">
+                        Hasil tidak mencapai 50%
+                    </h2>
                     <div className="justify-self-center">
                         <Link
                             href={route('diagnosas.create')}

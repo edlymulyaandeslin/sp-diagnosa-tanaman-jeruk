@@ -1,15 +1,19 @@
 <?php
 
-use App\Http\Controllers\DiagnosaController;
-use App\Http\Controllers\GejalaController;
-use App\Http\Controllers\PenyakitController;
 use Inertia\Inertia;
 use App\Models\Penyakit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RuleController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\GejalaController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DiagnosaController;
+use App\Http\Controllers\PenyakitController;
+use App\Http\Controllers\AuthorizeController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     $penyakits = Penyakit::get();
@@ -18,11 +22,7 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+Route::middleware('admin')->group(function () {
     // Route Penyakit
     Route::get("penyakits", [PenyakitController::class, 'index'])->name('penyakits.index');
     Route::get("penyakits/create", [PenyakitController::class, 'create'])->name('penyakits.create');
@@ -47,6 +47,19 @@ Route::middleware('auth')->group(function () {
     Route::put("rules/{rule:id}", [RuleController::class, 'update'])->name('rules.update');
     Route::delete("rules/{rule:id}", [RuleController::class, 'destroy'])->name('rules.destroy');
 
+    // route authorize
+    Route::prefix('authorize')->group(function () {
+        Route::resource("users", UserController::class)->names('users');
+        Route::resource("roles", RoleController::class)->names('roles');
+        // Route::resource("permission", PermissionController::class)->names('permissions');
+    });
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     // Route diagnosas
     Route::get("diagnosas", [DiagnosaController::class, 'index'])->name('diagnosas.index');
     Route::delete("diagnosas/{diagnosa:id}", [DiagnosaController::class, 'destroy'])->name('diagnosas.destroy');
@@ -60,4 +73,6 @@ Route::get("diagnosas/{diagnosa:id}", [DiagnosaController::class, 'show'])->name
 
 // route detail penyakit
 Route::get("penyakits/{penyakit:kode_penyakit}", [PenyakitController::class, 'show'])->name('penyakits.show');
+
+
 require __DIR__ . '/auth.php';

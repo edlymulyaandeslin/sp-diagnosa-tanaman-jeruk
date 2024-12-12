@@ -1,11 +1,13 @@
 import Content from '@/Components/Content';
 import ErrorMessage from '@/Components/ErrorMessage';
 import MainLayout from '@/Layouts/MainLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 
 export default function Create({ gejalas }) {
+    const { user } = usePage().props.auth;
+
     const { data, setData, post, processing, errors } = useForm({
-        name_user: '',
+        name_user: user?.name ?? '',
         pilihan_gejala: [],
     });
 
@@ -13,8 +15,6 @@ export default function Create({ gejalas }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log(data);
 
         post(route('diagnosas.store'));
     };

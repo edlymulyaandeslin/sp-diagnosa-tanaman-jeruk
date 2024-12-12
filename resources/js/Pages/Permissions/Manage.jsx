@@ -3,12 +3,11 @@ import ErrorMessage from '@/Components/ErrorMessage';
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 
-export default function Manage({ gejala }) {
-    const isEditing = gejala ? true : false;
+export default function Manage({ permission }) {
+    const isEditing = permission ? true : false;
 
     const { data, setData, post, put, processing, errors } = useForm({
-        kode_gejala: gejala?.kode_gejala ?? '',
-        name: gejala?.name ?? '',
+        name: permission?.name ?? '',
     });
 
     const btnCreate = processing ? 'Saving...' : 'Save';
@@ -18,44 +17,24 @@ export default function Manage({ gejala }) {
         e.preventDefault();
 
         if (isEditing) {
-            put(route('gejalas.update', gejala.kode_gejala));
+            put(route('permissions.update', permission.id));
         } else {
-            post(route('gejalas.store'));
+            post(route('permissions.store'));
         }
     };
 
     return (
         <MainLayout>
-            <Head title={`${isEditing ? 'Edit' : 'New'} Gejala`} />
+            <Head title={`${isEditing ? 'Edit' : 'New'} Permission`} />
             <Content className={'py-4'}>
                 <h1 className="text-center text-3xl font-bold">
-                    {isEditing ? 'Edit' : 'Create New'} Gejala
+                    {isEditing ? 'Edit' : 'Create New'} Permission
                 </h1>
 
                 <form
                     className="mx-auto w-full max-w-xl p-4"
                     onSubmit={handleSubmit}
                 >
-                    <div className="w-full">
-                        <label className="form-control">
-                            <div className="label">
-                                <span className="label-text">Kode Gejala</span>
-                            </div>
-                            <input
-                                type="text"
-                                value={data.kode_gejala}
-                                onChange={(e) =>
-                                    setData('kode_gejala', e.target.value)
-                                }
-                                placeholder="Type here"
-                                className="input input-bordered w-full"
-                            />
-                        </label>
-                        {errors.kode_gejala && (
-                            <ErrorMessage>{errors.kode_gejala}</ErrorMessage>
-                        )}
-                    </div>
-
                     <div className="w-full">
                         <label className="form-control">
                             <div className="label">
@@ -78,7 +57,7 @@ export default function Manage({ gejala }) {
 
                     <div className="mt-4 flex justify-between">
                         <Link
-                            href={route('gejalas.index')}
+                            href={route('permissions.index')}
                             className="btn btn-error"
                         >
                             Cancel

@@ -2,39 +2,37 @@ import { Link, router } from '@inertiajs/react';
 import { FaPenToSquare, FaTrash } from 'react-icons/fa6';
 import Pagination from '../main/Pagination';
 
-export default function TableListGejala({ data }) {
-    const handleDelete = (kode_gejala) => {
+export default function TableListPermissions({ data }) {
+    const handleDelete = (permissionId) => {
         const confirm = window.confirm(
             'Apakah anda yakin ingin menghapus data ini?',
         );
         if (!confirm) return;
 
-        router.delete(route('gejalas.destroy', kode_gejala));
+        router.delete(route('permissions.destroy', permissionId));
     };
 
     return (
         <div className="m-4 rounded border border-gray-500 p-8">
             <div className="overflow-x-auto">
-                <table className="table">
+                <table className="table text-center">
                     {/* head */}
                     <thead>
                         <tr>
-                            <th>Kode Gejala</th>
                             <th>Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.data.map((gejala, index) => (
+                        {data.data.map((permission, index) => (
                             <tr key={index}>
-                                <th>{gejala.kode_gejala}</th>
-                                <td>{gejala.name}</td>
+                                <td>{permission.name}</td>
                                 <td>
-                                    <div className="flex gap-4">
+                                    <div className="flex justify-center gap-4">
                                         <Link
                                             href={route(
-                                                'gejalas.edit',
-                                                gejala.kode_gejala,
+                                                'permissions.edit',
+                                                permission.id,
                                             )}
                                             className="btn"
                                         >
@@ -42,7 +40,7 @@ export default function TableListGejala({ data }) {
                                         </Link>
                                         <button
                                             onClick={() =>
-                                                handleDelete(gejala.kode_gejala)
+                                                handleDelete(permission.id)
                                             }
                                             className="btn"
                                         >
@@ -55,7 +53,7 @@ export default function TableListGejala({ data }) {
                         {data.data.length === 0 && (
                             <tr>
                                 <td
-                                    colSpan={5}
+                                    colSpan={2}
                                     className="text-center text-xl font-bold"
                                 >
                                     No Data
